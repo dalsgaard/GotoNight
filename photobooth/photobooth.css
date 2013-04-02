@@ -1,0 +1,37 @@
+
+canvas {
+  background-color: black;
+}
+
+section.image video, section.image canvas {
+  left: 0px;
+  position: absolute;
+  top: 0px;
+}
+
+section.image {
+  height: 300px;
+  position: relative;
+}
+
+body.taking canvas {
+  display: none;
+}
+
+/* Filters */
+
+canvas.grayscale {
+  -webkit-filter: grayscale(100%);
+}
+
+canvas.sepia {
+  -webkit-filter: sepia(100%);
+}
+
+canvas.contrast {
+  -webkit-filter: contrast(200%);
+}
+
+canvas.saturate {
+  -webkit-filter: saturate(5);
+}

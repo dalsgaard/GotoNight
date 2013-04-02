@@ -1,0 +1,19 @@
+
+canvas {
+  background-color: black;
+}
+
+section.image video, section.image canvas {
+  left: 0px;
+  position: absolute;
+  top: 0px;
+}
+
+section.image {
+  height: 300px;
+  position: relative;
+}
+
+body.taking canvas {
+  display: none;
+}

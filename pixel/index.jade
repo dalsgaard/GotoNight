@@ -1,0 +1,20 @@
+doctype
+html
+  head
+    link(rel='stylesheet', href='/style/reset.css')
+    link(rel='stylesheet', href='pixel.css')
+    script(src='/lib/underscore.js')
+    script(src='/lib/canvas-toBlob.js')
+    script(src='pixel.js')
+  body
+    section.image
+      video(width=400, height=300, autoplay=true)
+      canvas(width=400, height=300)
+    section
+      button.take Take
+      button.delete Delete
+      button.upload Upload
+    section.filters
+      canvas.normal(width=125, height=100)
+      canvas.grayscale(width=125, height=100)
+      canvas.brightness(width=125, height=100)
