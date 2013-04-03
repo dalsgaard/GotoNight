@@ -78,7 +78,7 @@ function setup() {
   var upload = document.querySelector('button.upload');
   upload.addEventListener('click', function() {
     var xhr = new XMLHttpRequest();
-    xhr.open('POST', 'http://0.0.0.0:8320', true);
+    xhr.open('POST', 'http://0.0.0.0:8322', true);
     xhr.onload = function(e) {
       console.log(this.status);
       alert('Done');

@@ -3,25 +3,27 @@ document.addEventListener('DOMContentLoaded', setup, false);
 
 function setup() {
 
+  // Selecting the Canvas and getting the Context
   var canvas = document.querySelector('canvas');
   var ctx = canvas.getContext("2d");
   var width = canvas.width;
   var height = canvas.height;
 
+  // Setting up some fish images
   var fish2LR = new Image();
   fish2LR.src = '../images/fish2.png';
   var fish2RL = new Image();
   fish2RL.src = '../images/fish2r.png';
-
   var images = [];
   images.push([fish2LR, fish2RL]);
 
+  // Setting up the boundaries
   var maxX = width - 90;
   var maxY = height - 60;
 
+  // Creating Views and Models
   var views = [];
   var models = [];
-
   for (var i = 0; i < 5; i++) {
     var model = new FishModel(maxX, maxY);
     model.place(100 * i, 100 * i);
@@ -30,8 +32,13 @@ function setup() {
     views.push(view);
   }
 
+  /*
+    Points is the data that tells the views where to place the fish.
+    It contains two floats per fish - the x and the y coordinate.
+  */
   var points = null;
 
+  // The draw function - called when a new frame should be drawn
   function draw() {
     ctx.clearRect(0, 0, width, height);
     if (points) {
@@ -48,7 +55,7 @@ function setup() {
   }
   draw();
 
-  setInterval(update, 1000/25);
+  // The update function - called when the fish should update its position.
   function update() {
     var buffer = new ArrayBuffer(models.length * Float32Array.BYTES_PER_ELEMENT * 2);
     var array = new Float32Array(buffer);
@@ -61,8 +68,16 @@ function setup() {
     points = buffer;
   }
 
+  // Calls update 25 times per second.
+  setInterval(update, 1000/25);
+
 }
 
+/*
+  The Fish View Object
+
+  A fish object has a left- and a right image, and it gets a starting point.
+*/
 function FishView(images, x, y, reverse) {
   this.imageLR = images[0];
   this.imageRL = images[1];
@@ -71,6 +86,7 @@ function FishView(images, x, y, reverse) {
   this.reverse = reverse;
 }
 
+// Updates its state based on a new x and y position.
 FishView.prototype.update = function(x, y) {
   if (this.x != x) {
     this.reverse = this.x > x;
@@ -79,12 +95,19 @@ FishView.prototype.update = function(x, y) {
   this.y = y;
 };
 
+// Draws itself in the context
 FishView.prototype.draw = function(ctx) {
   var image = this.reverse ? this.imageRL : this.imageLR;
   ctx.drawImage(image, this.x, this.y);
 };
 
+/*
+  The Fish Model Object
 
+  A fish object knows its bounds
+  relative to its upper left corner.
+  It is also given a start direction to swim in.
+*/
 function FishModel(maxX, maxY) {
   this.maxX = maxX;
   this.maxY = maxY;
@@ -94,6 +117,12 @@ function FishModel(maxX, maxY) {
   this.deltaY = - 0.1 + Math.random() / 5.0;
 }
 
+/* 
+  Here the fish calculates a new placement
+  on the basis of the direction it swims in.
+  If the new position is not within the bounds, the position
+  is corrected, and a new direction is set.
+*/
 FishModel.prototype.next = function() {
   this.y += this.deltaY;
   if (this.y < 0) {
@@ -115,6 +144,9 @@ FishModel.prototype.next = function() {
   }
 };
 
+/*
+  The fish may be placed anywhere in the tank
+*/
 FishModel.prototype.place = function(x, y) {
   this.x = x;
   this.y = y;

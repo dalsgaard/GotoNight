@@ -6,6 +6,6 @@
   },
   "dependencies": {
     "ws": "*",
-    "node-uuid"
+    "node-uuid": "*"
   }
 }

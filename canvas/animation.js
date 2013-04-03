@@ -3,28 +3,31 @@ document.addEventListener('DOMContentLoaded', setup, false);
 
 function setup() {
 
+  // Selecting the Canvas and getting the Context
   var canvas = document.querySelector('canvas');
   var ctx = canvas.getContext("2d");
   var width = canvas.width;
   var height = canvas.height;
 
+  // Setting up some fish images
   var fish2LR = new Image();
   fish2LR.src = '../images/fish2.png';
   var fish2RL = new Image();
   fish2RL.src = '../images/fish2r.png';
-
   var images = [];
   images.push([fish2LR, fish2RL]);
 
+  // Setting up the boundaries
   var maxX = width - 90;
   var maxY = height - 60;
 
+  // Setting up some fish
   var fishA = new Fish(images[0], maxX, maxY);
   var fishB = new Fish(images[0], maxX, maxY);
   fishB.place(100, 200);
-
   var fish = [fishA, fishB];
 
+  // The draw function - called when a new frame should be drawn
   function draw() {
     ctx.clearRect(0, 0, width, height);
     for (var i = 0, s = fish.length; i < s; i++) {
@@ -38,6 +41,13 @@ function setup() {
 
 }
 
+/*
+  The Fish Object
+
+  A fish object has a left- and a right image, and it knows its bounds
+  relative to its upper left corner.
+  It is also given a start direction to swim in.
+*/
 function Fish(images, maxX, maxY) {
   this.imageLR = images[0];
   this.imageRL = images[1];
@@ -50,6 +60,12 @@ function Fish(images, maxX, maxY) {
   this.reverse = false;
 }
 
+/* 
+  Here the fish draws itself. A new placement is calculated
+  on the basis of the direction it swims in.
+  If the new position is not within the bounds, the position
+  is corrected, and a new direction is set.
+*/
 Fish.prototype.draw = function(ctx) {
   this.y += this.deltaY;
   if (this.y < 0) {
@@ -79,6 +95,9 @@ Fish.prototype.draw = function(ctx) {
   ctx.drawImage(image, this.x, this.y);
 };
 
+/*
+  The fish may be placed anywhere in the tank
+*/
 Fish.prototype.place = function(x, y, reverse) {
   this.x = x;
   this.y = y;
