@@ -53,7 +53,8 @@ function setup() {
   draw();
 
   // Setting up the WebSocket
-  var ws = new WebSocket("ws://truffaut.local:8321");
+  //var ws = new WebSocket("ws://localhost:8321");
+  var ws = new WebSocket("ws://tiki.io:8321");
   ws.binaryType = "arraybuffer";
 
   // When the connection opens
